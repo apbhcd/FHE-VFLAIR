@@ -1,4 +1,4 @@
-# 1VFLAIR
+# VFLAIR
  ![Overview](usage_guidance/figures/overview.png)
 ## Basic Introduction
 
