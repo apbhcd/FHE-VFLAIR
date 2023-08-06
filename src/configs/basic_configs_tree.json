@@ -1,6 +1,6 @@
 {
-    "model_type": "randomforest",
-    "dataset_name": "digits", 
+    "model_type": "xgboost",
+    "dataset_name": "breast_cancer", 
     "number_of_trees": 3,
     "k": 2,
     "learning_rate": 0.01,
@@ -9,6 +9,7 @@
     "subsample_cols": 0.8,
     "max_bin": 4,
     "use_missing_value": false,
-    "use_encryption": false,
-    "key_length": 128
+    "use_encryption": true,
+    "he_scheme": "ckks",
+    "key_length": 1024
 }

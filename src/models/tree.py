@@ -113,6 +113,7 @@ class XGBoostBase:
         completelly_secure_round: int = 0,
         init_value: float = 1.0,
         use_encryption=False,
+        he_scheme: str= "paillier",
         n_job: int = 1,
         custom_secure_cond_func: Callable = (lambda _: False),
         save_loss: bool = True,
@@ -129,7 +130,8 @@ class XGBoostBase:
         self.active_party_id = active_party_id
         self.completelly_secure_round = completelly_secure_round
         self.init_value = init_value
-        self.use_encryption = use_encryption
+        self.use_encryption = use_encryption,
+        self.he_scheme = he_scheme,
         self.n_job = n_job
         self.custom_secure_cond_func = custom_secure_cond_func
         self.save_loss = save_loss
@@ -173,9 +175,15 @@ class XGBoostBase:
             grad_encrypted = None
             hess_encrypted = None
             if self.use_encryption:
-                grad_encrypted = parties[self.active_party_id].encrypt_2dlist(grad)
-                hess_encrypted = parties[self.active_party_id].encrypt_2dlist(hess)
-
+                # if self.he_scheme == "paillier":
+                #     grad_encrypted = parties[self.active_party_id].encrypt_2dlist(grad)
+                #     hess_encrypted = parties[self.active_party_id].encrypt_2dlist(hess)
+                # elif self.he_scheme == "ckks":
+                print("grad:",grad)
+                grad_encrypted = parties[self.active_party_id].ckks_encrypt_2dlist(grad)
+                hess_encrypted = parties[self.active_party_id].ckks_encrypt_2dlist(hess)
+                print("self.he_scheme: ", self.he_scheme)
+                print("grad_encrypted: ", grad_encrypted)
             boosting_tree = XGBoostTree()
             boosting_tree.fit(
                 parties,

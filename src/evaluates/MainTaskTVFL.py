@@ -1,12 +1,12 @@
-from party.tree_party import *
-from models.tree import *
-from phe import paillier
-import random
 import os
 import sys
+import random
+from phe import paillier
+from models.tree import *
+from party.tree_party import *
+from utils.he_utils import *
 
 sys.path.append(os.pardir)
-
 
 class MainTaskTVFL(object):
 
@@ -20,6 +20,7 @@ class MainTaskTVFL(object):
 
         self.use_encryption = args.use_encryption
         self.key_length = args.key_length
+        self.he_scheme = args.he_scheme
 
         self.seed = args.seed
         self.number_of_trees = args.number_of_trees
@@ -31,11 +32,20 @@ class MainTaskTVFL(object):
             n_length=self.key_length
         )
         self.parties[self.k - 1].set_keypair(public_key, private_key)
+    
+    def setup_ckks_keypair(self):
+        HE = generate_ckks_key("16384")
+        self.parties[self.k - 1].set_ckks_context(HE)
+
 
     def train(self):
 
         if self.use_encryption:
-            self.setup_keypair()
+            if self.he_scheme == "paillier":
+                self.setup_keypair()
+            elif self.he_scheme == "ckks":
+                self.setup_ckks_keypair()
+
 
         if self.model_type == "xgboost":
             self.clf = XGBoostClassifier(
@@ -44,6 +54,7 @@ class MainTaskTVFL(object):
                 depth=self.depth,
                 active_party_id=self.k - 1,
                 use_encryption=self.use_encryption,
+                he_scheme=self.he_scheme
                 # n_job=self.n_job
             )
         elif self.model_type == "randomforest":

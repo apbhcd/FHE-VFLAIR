@@ -2,6 +2,7 @@ import random
 
 import numpy as np
 
+from utils.he_utils import *
 
 class Party:
     def __init__(
@@ -33,12 +34,31 @@ class Party:
 
         self.pk = None
         self.sk = None
-
+        self.ckks = None
         random.seed(self.seed)
+
 
     def set_keypair(self, pk, sk):
         self.pk = pk
         self.sk = sk
+
+
+    def set_ckks_context(self, HE):
+        self.ckks = HE
+     
+    def ckks_encrypt_2dlist(self, x):
+        print("ckks:", self.ckks)
+        results = []
+        for row in x:
+            results.append(self.ckks.encryptFrac(np.array(row)))
+        print(results)
+        return results
+    
+    def ckks_decrypt_2dlist(self, mat):
+        results = []
+        for row in mat:
+            results.append(dec_vector(self.ckks, row))
+        return results
 
     def encrypt_2dlist(self, x):
         results = []

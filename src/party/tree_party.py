@@ -6,6 +6,7 @@ from .tree_core_party import Party
 
 
 class RandomForestParty(Party):
+
     def __init__(
         self,
         x: List[List[float]],
@@ -87,6 +88,7 @@ class RandomForestParty(Party):
 
 
 class XGBoostParty(Party):
+
     def __init__(
         self,
         x,
