@@ -1,0 +1,64 @@
+1. Digits
+
+{
+    "model_type": "xgboost",
+    "number_of_trees": 3,
+    "num_class":10,
+    "k": 2,
+    "learning_rate": 0.01,
+    "depth": 5,
+    "min_leaf": 3,
+    "subsample_cols": 0.8,
+    "max_bin": 4,
+    "use_missing_value": false,
+    "use_encryption": false,
+    "key_length": 128
+}
+
+type of model: xgboost, encryption:False
+training time: 2.6860384941101074 [s]
+train auc: 0.9757027206486887, test auc: 0.9630586033475342
+
+2.Wine
+{
+    "model_type": "xgboost",
+    "number_of_trees": 3,
+    "num_class":10,
+    "k": 2,
+    "learning_rate": 0.01,
+    "depth": 5,
+    "min_leaf": 3,
+    "subsample_cols": 0.8,
+    "max_bin": 4,
+    "use_missing_value": false,
+    "use_encryption": false,
+    "key_length": 128
+}
+
+type of model: xgboost, encryption:False
+training time: 0.02876424789428711 [s]
+train auc: 0.9991828059647209, test auc: 0.9822080697080696
+
+3.IRIS
+
+{
+    "model_type": "xgboost",
+    "number_of_trees": 3,
+    "num_class":10,
+    "k": 2,
+    "learning_rate": 0.01,
+    "depth": 5,
+    "min_leaf": 3,
+    "subsample_cols": 0.8,
+    "max_bin": 4,
+    "use_missing_value": false,
+    "use_encryption": false,
+    "key_length": 128
+}
+
+type of model: xgboost, encryption:False
+training time: 0.010330677032470703 [s]
+train auc: 0.9581868103937241, test auc: 0.9587722042693704
+
+
+

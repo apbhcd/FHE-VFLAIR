@@ -33,4 +33,6 @@ def load_tree_configs(config_file_name, args):
     args.use_encryption = (
         config_dict["use_encryption"] if ("use_encryption" in config_dict) else False
     )
+    # args.n_job = config_dict["n_job"]
+    args.dataset_name = config_dict["dataset_name"] if "dataset_name" in config_dict else None
     return args

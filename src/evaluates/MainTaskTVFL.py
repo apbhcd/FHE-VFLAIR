@@ -9,6 +9,7 @@ sys.path.append(os.pardir)
 
 
 class MainTaskTVFL(object):
+
     def __init__(self, args):
         self.args = args
         self.k = args.k
@@ -23,6 +24,7 @@ class MainTaskTVFL(object):
         self.seed = args.seed
         self.number_of_trees = args.number_of_trees
         self.depth = args.depth
+        # self.n_job = args.n_job
 
     def setup_keypair(self):
         public_key, private_key = paillier.generate_paillier_keypair(
@@ -31,6 +33,7 @@ class MainTaskTVFL(object):
         self.parties[self.k - 1].set_keypair(public_key, private_key)
 
     def train(self):
+
         if self.use_encryption:
             self.setup_keypair()
 
@@ -41,6 +44,7 @@ class MainTaskTVFL(object):
                 depth=self.depth,
                 active_party_id=self.k - 1,
                 use_encryption=self.use_encryption,
+                # n_job=self.n_job
             )
         elif self.model_type == "randomforest":
             self.clf = RandomForestClassifier(
