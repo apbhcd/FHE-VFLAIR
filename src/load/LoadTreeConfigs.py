@@ -30,13 +30,18 @@ def load_tree_configs(config_file_name, args):
         if ("use_missing_value" in config_dict)
         else False
     )
-    args.use_encryption = (
-        config_dict["use_encryption"] if ("use_encryption" in config_dict) else False
-    )
+    if ("use_encryption" in config_dict):
+        args.use_encryption = config_dict["use_encryption"]
+        if config_dict.get("use_encryption"):
+            args.he_scheme = config_dict["he_scheme"]
 
-    args.he_scheme = (
-        config_dict["he_scheme"] if ("he_scheme" in config_dict) else False
-    )
+    # args.use_encryption = (
+    #     config_dict["use_encryption"] if ("use_encryption" in config_dict) else False
+    # )
+
+    # args.he_scheme = (
+    #     config_dict["he_scheme"] if ("use_encryption" in config_dict) and ("he_scheme" in config_dict) else False
+    # )
     
     # args.n_job = config_dict["n_job"]
     args.dataset_name = config_dict["dataset_name"] if "dataset_name" in config_dict else None

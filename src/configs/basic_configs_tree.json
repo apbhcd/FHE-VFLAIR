@@ -9,7 +9,7 @@
     "subsample_cols": 0.8,
     "max_bin": 4,
     "use_missing_value": false,
-    "use_encryption": true,
+    "use_encryption": false,
     "he_scheme": "ckks",
     "key_length": 1024
 }

@@ -28,6 +28,7 @@ def evaluate_performance(tvfl, X_train, y_train, X_test, y_test, num_classes):
 
 
 if __name__ == "__main__":
+
     parser = argparse.ArgumentParser("tree")
     parser.add_argument("--seed", type=int, default=42, help="random seed")
     parser.add_argument(
@@ -36,6 +37,7 @@ if __name__ == "__main__":
         default="basic_configs_tree",
         help="configure json file path",
     )
+
     args = parser.parse_args()
     args = load_tree_configs(args.configs, args)
 
@@ -78,9 +80,9 @@ if __name__ == "__main__":
     args.y = y_train
     args.featureid_lists = featureid_lists
 
+    import pdb; pdb.set_trace()
     print(f"type of model: {args.model_type}, encryption:{args.use_encryption}")
     args = load_tree_parties(args)
-
     tvfl = MainTaskTVFL(args)
 
     start = time.time()
@@ -90,4 +92,7 @@ if __name__ == "__main__":
     print("class num:\t{0}".format(numc))
     print(f"training time: {end - start} [s]")
     evaluate_performance(tvfl, X_train, y_train, X_test, y_test, numc)
+
+
+
 

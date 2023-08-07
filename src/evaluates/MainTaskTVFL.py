@@ -20,8 +20,8 @@ class MainTaskTVFL(object):
 
         self.use_encryption = args.use_encryption
         self.key_length = args.key_length
-        self.he_scheme = args.he_scheme
-
+        if args.hasattr("he_scheme"):
+            self.he_scheme = args.he_scheme 
         self.seed = args.seed
         self.number_of_trees = args.number_of_trees
         self.depth = args.depth
@@ -45,7 +45,6 @@ class MainTaskTVFL(object):
                 self.setup_keypair()
             elif self.he_scheme == "ckks":
                 self.setup_ckks_keypair()
-
 
         if self.model_type == "xgboost":
             self.clf = XGBoostClassifier(
