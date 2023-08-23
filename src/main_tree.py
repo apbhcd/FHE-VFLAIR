@@ -40,18 +40,16 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     args = load_tree_configs(args.configs, args)
-
-    if args.dataset_name is None:
-        print("****** load default dataset IRIS ******")
+    print("args:", args)
+    print("******dataset:\t{0}******".format(args.dataset_name))
+    if args.dataset_name == "iris":
         data = load_iris()
-    else:
-        print("******dataset:\t{0}******".format(args.dataset_name))
-        if args.dataset_name == "wine":
-            data = load_wine()
-        elif args.dataset_name == "breast_cancer":
-            data = load_breast_cancer()
-        elif args.dataset_name == "digits":
-            data = load_digits()
+    elif args.dataset_name == "wine":
+        data = load_wine()
+    elif args.dataset_name == "breast_cancer":
+        data = load_breast_cancer()
+    elif args.dataset_name == "digits":
+        data = load_digits()
 
     X = data.data
     y = data.target
@@ -80,7 +78,7 @@ if __name__ == "__main__":
     args.y = y_train
     args.featureid_lists = featureid_lists
 
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     print(f"type of model: {args.model_type}, encryption:{args.use_encryption}")
     args = load_tree_parties(args)
     tvfl = MainTaskTVFL(args)

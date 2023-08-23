@@ -20,14 +20,14 @@ class MainTaskTVFL(object):
 
         self.use_encryption = args.use_encryption
         self.key_length = args.key_length
-        if args.hasattr("he_scheme"):
-            self.he_scheme = args.he_scheme 
+        self.he_scheme = args.he_scheme 
         self.seed = args.seed
         self.number_of_trees = args.number_of_trees
         self.depth = args.depth
         # self.n_job = args.n_job
 
     def setup_keypair(self):
+        print("paillier key length:", self.key_length)
         public_key, private_key = paillier.generate_paillier_keypair(
             n_length=self.key_length
         )

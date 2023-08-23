@@ -176,14 +176,14 @@ class XGBoostBase:
             hess_encrypted = None
             if self.use_encryption:
                 # if self.he_scheme == "paillier":
-                #     grad_encrypted = parties[self.active_party_id].encrypt_2dlist(grad)
-                #     hess_encrypted = parties[self.active_party_id].encrypt_2dlist(hess)
-                # elif self.he_scheme == "ckks":
-                print("grad:",grad)
-                grad_encrypted = parties[self.active_party_id].ckks_encrypt_2dlist(grad)
-                hess_encrypted = parties[self.active_party_id].ckks_encrypt_2dlist(hess)
-                print("self.he_scheme: ", self.he_scheme)
-                print("grad_encrypted: ", grad_encrypted)
+                grad_encrypted = parties[self.active_party_id].encrypt_2dlist(grad)
+                hess_encrypted = parties[self.active_party_id].encrypt_2dlist(hess)
+                # # elif self.he_scheme == "ckks":
+                # print("grad:",grad)
+                # grad_encrypted = parties[self.active_party_id].ckks_encrypt_2dlist(grad)
+                # hess_encrypted = parties[self.active_party_id].ckks_encrypt_2dlist(hess)
+                # print("self.he_scheme: ", self.he_scheme)
+                # print("grad_encrypted: ", grad_encrypted)
             boosting_tree = XGBoostTree()
             boosting_tree.fit(
                 parties,

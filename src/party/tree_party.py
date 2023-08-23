@@ -128,7 +128,7 @@ class XGBoostParty(Party):
             return super().get_threshold_candidates(x_col)
 
     def greedy_search_split(self, gradient, hessian, idxs):
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         if self.use_missing_value:
             num_thresholds = self.subsample_col_count * 2
         else:
