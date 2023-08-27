@@ -11,11 +11,11 @@ def load_tree_configs(config_file_name, args):
     config_file = open(config_file_path, "r")
     config_dict = json.load(config_file)
 
-    args.k = config_dict["k"] if ("k" in config_dict) else 2
+    args.k = config_dict["k"] if ("k" in config_dict) else 4
     args.model_type = config_dict["model_type"]
-    args.number_of_trees = (
-        config_dict["number_of_trees"] if ("number_of_trees" in config_dict) else 3
-    )
+    # args.number_of_trees = (
+    #     config_dict["number_of_trees"] if ("number_of_trees" in config_dict) else 3
+    # )
     args.depth = config_dict["depth"] if ("depth" in config_dict) else 2
     args.min_leaf = config_dict["min_leaf"] if ("min_leaf" in config_dict) else 1
     args.subsample_cols = (
@@ -32,8 +32,9 @@ def load_tree_configs(config_file_name, args):
     )
     if ("use_encryption" in config_dict):
         args.use_encryption = config_dict["use_encryption"]
-        if config_dict.get("use_encryption"):
-            args.he_scheme = config_dict["he_scheme"]
+    
+    if ("he_scheme" in config_dict):
+        args.he_scheme = config_dict["he_scheme"]
 
     # args.use_encryption = (
     #     config_dict["use_encryption"] if ("use_encryption" in config_dict) else False

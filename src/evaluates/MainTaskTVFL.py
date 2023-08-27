@@ -4,7 +4,6 @@ import random
 from phe import paillier
 from models.tree import *
 from party.tree_party import *
-from utils.he_utils import *
 
 sys.path.append(os.pardir)
 
@@ -53,7 +52,8 @@ class MainTaskTVFL(object):
                 depth=self.depth,
                 active_party_id=self.k - 1,
                 use_encryption=self.use_encryption,
-                he_scheme=self.he_scheme
+                he_scheme=self.he_scheme,
+                save_loss=True
                 # n_job=self.n_job
             )
         elif self.model_type == "randomforest":

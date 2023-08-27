@@ -1,3 +1,4 @@
+import time
 import random
 from typing import Callable, List
 
@@ -112,7 +113,7 @@ class XGBoostBase:
         active_party_id: int = -1,
         completelly_secure_round: int = 0,
         init_value: float = 1.0,
-        use_encryption=False,
+        use_encryption = False,
         he_scheme: str= "paillier",
         n_job: int = 1,
         custom_secure_cond_func: Callable = (lambda _: False),
@@ -142,6 +143,8 @@ class XGBoostBase:
         self.init_pred = None
         self.estimators = []
         self.logging_loss = []
+        self.logging_traintime = []
+
 
     def get_init_pred(self, y: np.ndarray) -> List[List[float]]:
         pass
@@ -152,11 +155,13 @@ class XGBoostBase:
     def clear(self) -> None:
         self.estimators.clear()
         self.logging_loss.clear()
+        self.logging_traintime.clear()
 
     def get_estimators(self) -> List:
         return self.estimators
 
     def fit(self, parties: List, y: np.ndarray) -> None:
+        self.use_encryption = self.use_encryption[0]
         row_count = len(y)
         base_pred = []
         if not self.estimators:
@@ -168,6 +173,7 @@ class XGBoostBase:
                 pred_temp = self.estimators[i].get_train_prediction()
                 base_pred += self.learning_rate * np.array(pred_temp)
         for i in range(self.boosting_rounds):
+            self.logging_traintime.append(time.time())
             grad, hess = self.lossfunc_obj.get_grad(
                 base_pred, y
             ), self.lossfunc_obj.get_hess(base_pred, y)
@@ -175,9 +181,15 @@ class XGBoostBase:
             grad_encrypted = None
             hess_encrypted = None
             if self.use_encryption:
-                # if self.he_scheme == "paillier":
+                # print("Paillier Encryption start....", time.time())
                 grad_encrypted = parties[self.active_party_id].encrypt_2dlist(grad)
                 hess_encrypted = parties[self.active_party_id].encrypt_2dlist(hess)
+                # print("Paillier Encryption end....", time.time())
+
+            # if self.use_encryption:
+                # if self.he_scheme == "paillier":
+                # grad_encrypted = parties[self.active_party_id].encrypt_2dlist(grad)
+                # hess_encrypted = parties[self.active_party_id].encrypt_2dlist(hess)
                 # # elif self.he_scheme == "ckks":
                 # print("grad:",grad)
                 # grad_encrypted = parties[self.active_party_id].ckks_encrypt_2dlist(grad)
@@ -210,12 +222,15 @@ class XGBoostBase:
 
             if self.save_loss:
                 self.logging_loss.append(self.lossfunc_obj.get_loss(base_pred, y))
+        print("logging_traintime,", self.logging_traintime)
+        print("logging_loss,",self.logging_loss)
 
     def predict_raw(self, X):
         pred_dim = 1 if self.num_classes == 2 else self.num_classes
         row_count = len(X)
         y_pred = [[self.init_value] * pred_dim for _ in range(row_count)]
         estimators_num = len(self.estimators)
+        print("estimators_num:",estimators_num)
         for i in range(estimators_num):
             y_pred_temp = self.estimators[i].predict(X)
             for j in range(row_count):
@@ -278,6 +293,7 @@ class RandomForestClassifier:
         return self.estimators
 
     def fit(self, parties, y):
+        
         y_onehot_encoded = [
             [1 if y[i] == c else 0 for c in range(self.num_classes)]
             for i in range(len(y))

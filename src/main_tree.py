@@ -31,16 +31,18 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser("tree")
     parser.add_argument("--seed", type=int, default=42, help="random seed")
+
     parser.add_argument(
         "--configs",
         type=str,
         default="basic_configs_tree",
         help="configure json file path",
     )
-
+    parser.add_argument("--number_of_trees", type=int, default=1, help="number of trees")
     args = parser.parse_args()
     args = load_tree_configs(args.configs, args)
     print("args:", args)
+    print("args.number_of_trees:", args.number_of_trees)
     print("******dataset:\t{0}******".format(args.dataset_name))
     if args.dataset_name == "iris":
         data = load_iris()
@@ -78,9 +80,12 @@ if __name__ == "__main__":
     args.y = y_train
     args.featureid_lists = featureid_lists
 
-    # import pdb; pdb.set_trace()
     print(f"type of model: {args.model_type}, encryption:{args.use_encryption}")
+
+
     args = load_tree_parties(args)
+
+  
     tvfl = MainTaskTVFL(args)
 
     start = time.time()
